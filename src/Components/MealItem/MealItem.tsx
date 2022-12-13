@@ -30,6 +30,7 @@ const MealItem: React.FC<MealProps> = ({meal}) => {
     return (
         <div className='d-flex justify-content-between border-dark border border-5 rounded mb-3'>
             <div>
+                <b>{meal.date}</b>
                 <h2>{meal.mealTime}</h2>
                 <p>{meal.desc}</p>
             </div>

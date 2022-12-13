@@ -15,7 +15,7 @@ const MealForm = () => {
         desc: '',
         mealTime: '',
         cal: 0,
-        date: '',
+        date: startDate.getFullYear().toString() + '.' + (startDate.getMonth() + 1).toString() + '.' + startDate.getDate().toString(),
     });
 
     const navigate = useNavigate();
@@ -33,7 +33,10 @@ const MealForm = () => {
             try {
                 const response = await axiosApi('/calTracker/' + id + '.json');
                 if (response) {
-                    setMeal(response.data);
+                    setMeal({
+                        ...response.data,
+                        date: startDate.getFullYear().toString() + '.' + (startDate.getMonth() + 1).toString() + '.' + startDate.getDate().toString()
+                })
                 }
             } finally {
 
@@ -42,6 +45,7 @@ const MealForm = () => {
     }, [id]);
 
     useEffect(() => {
+        setStartDate(new Date());
         getMeal().catch(console.error);
     }, [getMeal]);
 
@@ -51,9 +55,11 @@ const MealForm = () => {
         setMeal(prev => ({...prev, [name]: value}));
     };
 
-    const DateChange = (date: string) => {
-        setMeal(prev => ({...prev, date: date}))
+    const DateChanger = (date: Date) =>{
+        const newDate = date.getFullYear().toString() + '.' + (date.getMonth() + 1).toString() + '.' + date.getDate().toString();
+        setMeal(prev => ({...prev, date: newDate}));
     }
+
 
     const EditFunc = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -95,7 +101,7 @@ const MealForm = () => {
                     <input className='mb-4 w-75 align-self-center' value={meal.cal} name='cal'
                            onChange={ChangeEvent}
                            type='number'/>
-                    <DatePicker selected={startDate} onChange={(date)=>DateChange} />
+                    <DatePicker selected={startDate} onChange={(date)=> DateChanger(date!)} onSelect={(date)=>setStartDate(date!)} />
                     <button className='btn btn-dark' disabled={preloader}
                             type='submit'>{preloader ? <Spinner/> : (id ? 'save' : 'Add')}</button>
                 </div>

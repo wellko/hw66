@@ -7,6 +7,7 @@ import MealForm from "./Containers/MealForm/MealForm";
 import NavBar from "./Components/NavBar/NavBar";
 import CaloriesCalc from "./Components/CaloriesCalc/CaloriesCalc";
 
+
 function App() {
     const location = useLocation();
 
